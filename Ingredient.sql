@@ -1,0 +1,28 @@
+USE [Recipe]
+GO
+
+/****** Object:  Table [dbo].[Ingredients]    Script Date: 7/30/2014 11:59:51 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[Ingredients](
+	[Id] [int] NOT NULL,
+	[IngredientName] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Ingredients] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
