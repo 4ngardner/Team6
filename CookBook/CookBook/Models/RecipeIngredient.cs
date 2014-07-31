@@ -12,20 +12,13 @@ namespace CookBook.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Recipe
+    public partial class RecipeIngredient
     {
-        public Recipe()
-        {
-            this.RecipeIngredients = new HashSet<RecipeIngredient>();
-        }
+        public int RecipeId { get; set; }
+        public int IngredientId { get; set; }
+        public int Amount { get; set; }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int PrepTime { get; set; }
-        public int CookTime { get; set; }
-        public int NumberServ { get; set; }
-        public string Steps { get; set; }
-    
-        public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; }
+        public virtual Ingredient Ingredient { get; set; }
+        public virtual Recipe Recipe { get; set; }
     }
 }

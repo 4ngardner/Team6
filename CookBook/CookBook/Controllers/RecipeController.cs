@@ -17,8 +17,7 @@ namespace CookBook.Controllers
         // GET: Recipe
         public ActionResult Index()
         {
-            var recipes = db.Recipes.Include(r => r.Ingredient);
-            return View(recipes.ToList());
+            return View(db.Recipes.ToList());
         }
 
         // GET: Recipe/Details/5
@@ -39,7 +38,6 @@ namespace CookBook.Controllers
         // GET: Recipe/Create
         public ActionResult Create()
         {
-            ViewBag.IngredientId = new SelectList(db.Ingredients, "Id", "IngredientName");
             return View();
         }
 
@@ -48,7 +46,7 @@ namespace CookBook.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,PrepTime,CookTime,NumberServ,IngredientId,Steps")] Recipe recipe)
+        public ActionResult Create([Bind(Include = "Name,PrepTime,CookTime,NumberServ,Steps")] Recipe recipe)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +55,6 @@ namespace CookBook.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IngredientId = new SelectList(db.Ingredients, "Id", "IngredientName", recipe.IngredientId);
             return View(recipe);
         }
 
@@ -73,7 +70,6 @@ namespace CookBook.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IngredientId = new SelectList(db.Ingredients, "Id", "IngredientName", recipe.IngredientId);
             return View(recipe);
         }
 
@@ -82,7 +78,7 @@ namespace CookBook.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,PrepTime,CookTime,NumberServ,IngredientId,Steps")] Recipe recipe)
+        public ActionResult Edit([Bind(Include = "Id,Name,PrepTime,CookTime,NumberServ,Steps")] Recipe recipe)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +86,6 @@ namespace CookBook.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IngredientId = new SelectList(db.Ingredients, "Id", "IngredientName", recipe.IngredientId);
             return View(recipe);
         }
 

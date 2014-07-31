@@ -17,8 +17,16 @@
           <ScalarProperty Name="PrepTime" ColumnName="PrepTime" />
           <ScalarProperty Name="CookTime" ColumnName="CookTime" />
           <ScalarProperty Name="NumberServ" ColumnName="NumberServ" />
-          <ScalarProperty Name="IngredientId" ColumnName="IngredientId" />
           <ScalarProperty Name="Steps" ColumnName="Steps" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RecipeIngredients">
+      <EntityTypeMapping TypeName="RecipeModel.RecipeIngredient">
+        <MappingFragment StoreEntitySet="RecipeIngredients">
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="IngredientId" ColumnName="IngredientId" />
+          <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

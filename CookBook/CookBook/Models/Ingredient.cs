@@ -16,12 +16,12 @@ namespace CookBook.Models
     {
         public Ingredient()
         {
-            this.Recipes = new HashSet<Recipe>();
+            this.RecipeIngredients = new HashSet<RecipeIngredient>();
         }
     
         public int Id { get; set; }
         public string IngredientName { get; set; }
     
-        public virtual ICollection<Recipe> Recipes { get; set; }
+        public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; }
     }
 }

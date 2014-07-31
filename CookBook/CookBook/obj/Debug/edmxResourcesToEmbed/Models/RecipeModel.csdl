@@ -6,7 +6,7 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" />
     <Property Name="IngredientName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="Recipes" Relationship="Self.FK_Recipe_Ingredients" FromRole="Ingredients" ToRole="Recipe" />
+    <NavigationProperty Name="RecipeIngredients" Relationship="RecipeModel.FK_RecipeIngredients_Ingredients" FromRole="Ingredient" ToRole="RecipeIngredient" />
   </EntityType>
   <EntityType Name="Recipe">
     <Key>
@@ -17,28 +17,56 @@
     <Property Name="PrepTime" Type="Int32" Nullable="false" />
     <Property Name="CookTime" Type="Int32" Nullable="false" />
     <Property Name="NumberServ" Type="Int32" Nullable="false" />
-    <Property Name="IngredientId" Type="Int32" Nullable="false" />
     <Property Name="Steps" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="Ingredient" Relationship="Self.FK_Recipe_Ingredients" FromRole="Recipe" ToRole="Ingredients" />
+    <NavigationProperty Name="RecipeIngredients" Relationship="RecipeModel.FK_RecipeIngredients_Recipe" FromRole="Recipe" ToRole="RecipeIngredient" />
   </EntityType>
-  <Association Name="FK_Recipe_Ingredients">
-    <End Role="Ingredients" Type="Self.Ingredient" Multiplicity="1" />
-    <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+  <EntityContainer Name="RecipeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Ingredients" EntityType="Self.Ingredient" />
+    <EntitySet Name="Recipes" EntityType="Self.Recipe" />
+    <EntitySet Name="RecipeIngredients" EntityType="RecipeModel.RecipeIngredient" />
+    <AssociationSet Name="FK_RecipeIngredients_Ingredients" Association="RecipeModel.FK_RecipeIngredients_Ingredients">
+      <End Role="Ingredient" EntitySet="Ingredients" />
+      <End Role="RecipeIngredient" EntitySet="RecipeIngredients" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RecipeIngredients_Recipe" Association="RecipeModel.FK_RecipeIngredients_Recipe">
+      <End Role="Recipe" EntitySet="Recipes" />
+      <End Role="RecipeIngredient" EntitySet="RecipeIngredients" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="RecipeIngredient">
+    <Key>
+      <PropertyRef Name="RecipeId" />
+      <PropertyRef Name="IngredientId" />
+      <PropertyRef Name="Amount" />
+    </Key>
+    <Property Name="RecipeId" Type="Int32" Nullable="false" />
+    <Property Name="IngredientId" Type="Int32" Nullable="false" />
+    <Property Name="Amount" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Ingredient" Relationship="RecipeModel.FK_RecipeIngredients_Ingredients" FromRole="RecipeIngredient" ToRole="Ingredient" />
+    <NavigationProperty Name="Recipe" Relationship="RecipeModel.FK_RecipeIngredients_Recipe" FromRole="RecipeIngredient" ToRole="Recipe" />
+  </EntityType>
+  <Association Name="FK_RecipeIngredients_Ingredients">
+    <End Type="RecipeModel.Ingredient" Role="Ingredient" Multiplicity="1" />
+    <End Type="RecipeModel.RecipeIngredient" Role="RecipeIngredient" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Ingredients">
+      <Principal Role="Ingredient">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Recipe">
+      <Dependent Role="RecipeIngredient">
         <PropertyRef Name="IngredientId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="RecipeEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Ingredients" EntityType="Self.Ingredient" />
-    <EntitySet Name="Recipes" EntityType="Self.Recipe" />
-    <AssociationSet Name="FK_Recipe_Ingredients" Association="Self.FK_Recipe_Ingredients">
-      <End Role="Ingredients" EntitySet="Ingredients" />
-      <End Role="Recipe" EntitySet="Recipes" />
-    </AssociationSet>
-  </EntityContainer>
+  <Association Name="FK_RecipeIngredients_Recipe">
+    <End Type="RecipeModel.Recipe" Role="Recipe" Multiplicity="1" />
+    <End Type="RecipeModel.RecipeIngredient" Role="RecipeIngredient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Recipe">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RecipeIngredient">
+        <PropertyRef Name="RecipeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
